@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script type="text/javascript" src="./javascript/jquery.js"></script>
+		<script type="text/javascript" src="./javascript/jQueryRotate.js"></script>
+	</head>
+	<body>
+	
+		<img src="./img/king_heart.gif" id="top_left_pile" style="position: absolute; top: 10px; left: 30px" />
+		<img src="./img/ace_heart.gif" id="top_pile" style="position: absolute; top: 25px; left: 149px" />
+		<img src="./img/king_spade.gif" id="top_right_pile" style="position: absolute; top: 10px; left: 272px" />
+		<img src="./img/ace_spade.gif" id="right_pile" style="position: absolute; top: 149px; left: 272px" />
+		<img src="./img/back.gif" id="draw_pile" style="position: absolute; top: 158px; left: 149px" />
+		<img src="./img/ace_diamond.gif" id="left_pile" style="position: absolute; top: 149px; left: 30px" />
+		<img src="./img/king_club.gif" id="bottom_left_pile" style="position: absolute; top: 301px; left: 30px" />
+		<img src="./img/ace_club.gif" id="bottom_pile" style="position: absolute; top: 291px; left: 149px" />
+		<img src="./img/king_diamond.gif" id="bottom_right_pile" style="position: absolute; top: 301px; left: 272px" />
+
+		<script type="text/javascript">
+
+		// for each draw pile, rotate by 45 from previous rotation
+
+		$("#bottom_left_pile").rotate(45);
+		$("#left_pile").rotate(90);
+		$("#top_left_pile").rotate(135);
+		$("#top_pile").rotate(180);
+		$("#top_right_pile").rotate(225);
+		$("#right_pile").rotate(270);
+		$("#bottom_right_pile").rotate(315);
+
+		// width: 85, height: 123
+	
+		  </script>	
+	</body>
+</html>
+
