@@ -8,3 +8,6 @@ I'd rather send one card image to the user at the start of the game than multipl
 ~ Kings-In-The-Corner-Card-Layout ~
 I created this to test rotating images in the browser.
 I did this because I did not want to have multiple versions of the same image.  That is, one file for the image turned on a right slant, another file for the iamge turned 90 degrees, etc.
+
+~ Cards-In-Hand ~
+I created this page to prototype how to handle displaying and rearranging the user's cards.

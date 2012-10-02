@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery.min.js"></script>
+	</head>
+	<body>
+
+		<!-- cards in player's hand -->
+		<div id="handDiv"></div>
+
+		<script type="text/javascript">
+
+		// create Card class
+		function Card(rank, suit) {
+			this.rank = rank;
+			this.suit = suit;
+		}
+
+		// create array of cards
+		cards = new Array();
+
+		// populate array
+		cards.push(new Card('two', 'club'));
+		cards.push(new Card('two', 'diamond'));
+		cards.push(new Card('two', 'heart'));
+		cards.push(new Card('two', 'spade'));
+	
+		var zIndex = null;
+		var firstCard = null;
+	
+		function createCardImage(rank, suit, index) {
+			// create image element
+			var img = document.createElement('img');
+	
+			img.setAttribute('src', rank + '_' + suit + '.gif');
+			img.setAttribute('id', '' + index);
+	
+			img.style.position = 'absolute';
+			img.style.zIndex = index;
+		
+			// bring card to front when mouse is hovered over it
+			img.onmouseover = function() {
+				// save zIndex for when user tries to swap cards
+				zIndex = this.style.zIndex;
+				this.style.zIndex = cards.length;
+			}
+	
+			// put card back in hand when mouse moves away from it
+			img.onmouseout = function() {
+				// restore zIndex of card image
+				this.style.zIndex = zIndex;
+			}
+	
+			// swap card
+			img.onclick = function() {
+			
+				// if this is the first card clicked...
+				if(firstCard == null){
+					// ...raise it up
+					this.style.top = (this.offsetTop - 20) + 'px';
+					firstCard = this;
+				} 
+				else {
+					// ...otherwise lower previously clicked on card
+					firstCard.style.top = (firstCard.offsetTop + 20) + 'px';
+	
+					// and if a second, different card was clicked...
+					if(firstCard != this) {
+						// swap Card objects in array
+						var card = cards[firstCard.id];
+						cards[firstCard.id] = cards[this.id];
+						cards[this.id] = card;
+	
+						// swap src
+						var src = firstCard.getAttribute('src');
+						firstCard.setAttribute('src', this.getAttribute('src'));
+						this.setAttribute('src', src);
+					}
+	
+					// finally, reset so no cards have been selected for swap
+					firstCard = null;
+				}
+			}
+			
+			return img;		
+		}
+	
+		handDiv = document.getElementById('handDiv');
+	
+		function putCardInHand(cardImage, id) {
+			handDiv.appendChild(cardImage);				
+		
+			if(id > 0) {
+				cardImage.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
+			}
+		}
+	
+		// for each card in array
+		for(var i = 0; i < cards.length; i++) {
+			// create card image (including functionality)
+			putCardInHand(createCardImage(cards[i].rank, cards[i].suit, i), i);
+		}
+		</script>
+
+
+	</body>
+</html>
