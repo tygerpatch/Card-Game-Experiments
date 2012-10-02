@@ -1,0 +1,118 @@
+<html>
+	<body>
+		<style type="text/css">
+		.card_img {
+			width: 170px;
+			height: 246px;
+			
+			background: url(svg-cards.gif);					
+		}
+		</style>
+		
+		<table>
+			<tr>
+				<td id='suitColumn'></td>
+				<td id='rankColumn'></td>								
+			</tr>
+		</table>
+
+    		<div id='card' class='card_img'></div>
+
+		<script type="text/javascript">
+		var card = document.getElementById('card');
+
+		var cardSuits = new Array('ace', 'two', 'three', 'four', 'five', 'six', 'seven',
+			'eight', 'nine', 'ten', 'jack', 'queen', 'king');
+
+		var suitColumn = document.getElementById('suitColumn');
+
+		for(var index = 0; index < cardSuits.length; index++){
+
+			// create a radio button for the suit
+			radioButton = document.createElement('input');
+
+			radioButton.value = index;
+			radioButton.type = 'radio';
+			radioButton.name = 'suit';
+
+			// add an event handler for the onclick event
+			if(typeof(radioButton.getAttribute('onclick')) != "function") { 
+				// for FF,IE8,Chrome
+				radioButton.setAttribute('onclick', 'changeLeftPosition(' + index + ')');
+			} 
+			else {
+				// for IE7
+				radioButton.onclick = changeLeftPosition(index); 
+			}
+			
+			// add radio button for suit to suit column
+			suitColumn.appendChild(radioButton);			
+			suitColumn.appendChild(document.createTextNode(cardSuits[index]));
+			suitColumn.appendChild(document.createElement('br'));
+		}
+
+		var cardRanks = new Array('club', 'diamond', 'heart', 'spade');
+		var rankColumn = document.getElementById('rankColumn');
+
+		// Create a radio button for each rank.
+		// When user clicks on the radio button, move the Sprite Sheet window.
+		// Add the created radio button to the appropriate column
+		for(var index = 0; index < cardRanks.length; index++){
+
+			// create a radio button for the rank
+			radioButton = document.createElement('input');
+
+			radioButton.value = index;
+			radioButton.type = 'radio';
+			radioButton.name = 'rank';
+
+			// add an event handler for the onclick event
+			if(typeof(radioButton.getAttribute('onclick')) != "function") { 
+				// for FF,IE8,Chrome
+				radioButton.setAttribute('onclick', 'changeTopPosition(' + index + ')');
+			} 
+			else {
+				// for IE7
+				radioButton.onclick = changeTopPosition(index); 
+			}
+
+			// add radio button for rank to rank column
+			rankColumn.appendChild(radioButton);			
+			rankColumn.appendChild(document.createTextNode(cardRanks[index]));
+			rankColumn.appendChild(document.createElement('br'));
+		}
+
+		function changeTopPosition(value) {
+			top_x = value;
+			changeBackgroundPosition( );
+		}
+		
+		function changeLeftPosition(value) {
+			left_x = value;
+			changeBackgroundPosition( );
+		}
+
+		var card_width = 170;
+		var card_height = 246;
+
+		// move CSS Window to blank card image
+		var top = -(card_height * 4);
+		var left = -(card_width * 2);
+						
+		card.style.backgroundPosition = left + ' ' + top;
+		
+		var top_x;
+		var left_x;
+
+		function changeBackgroundPosition( ) {
+			if((top_x >= 0) && (left_x >= 0)) {
+				left = -(card_width * left_x);
+				top = -(card_height * top_x); // - .5;
+							
+				card.style.backgroundPosition = left + ' ' + top;			
+			}
+		}
+
+		</script>	
+	</body>
+</html>
