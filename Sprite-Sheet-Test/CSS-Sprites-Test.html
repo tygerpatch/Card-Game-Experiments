@@ -19,6 +19,8 @@
     		<div id='card' class='card_img'></div>
 
 		<script type="text/javascript">
+		// BUG: Doesn't work in Internet Explorer
+
 		var card = document.getElementById('card');
 
 		var cardRanks = new Array('ace', 'two', 'three', 'four', 'five', 'six', 'seven',
@@ -26,14 +28,19 @@
 		
 		var rankColumn = document.getElementById('rankColumn');
 
+		function createRadioButton(name, value){
+			var inputElement = document.createElement('input');
+
+			inputElement.type = 'radio';
+			inputElement.name = name;
+			inputElement.value = value;
+
+			return inputElement;
+		}
+
 		for(var index = 0; index < cardRanks.length; index++){
 
-			// create a radio button for the rank
-			var radioButton = document.createElement('input');
-
-			radioButton.value = index;
-			radioButton.type = 'radio';
-			radioButton.name = 'rank';
+			var radioButton = createRadioButton('rank', index);
 
 			// *** add an event handler for the onclick event
 
@@ -59,12 +66,7 @@
 
 		for(var index = 0; index < cardSuits.length; index++){
 
-			// create a radio button for the suit
-			var radioButton = document.createElement('input');
-
-			radioButton.value = index;
-			radioButton.type = 'radio';
-			radioButton.name = 'suit';
+			var radioButton = createRadioButton('suit', index);
 
 			// *** add an event handler for the onclick event
 
@@ -85,7 +87,6 @@
 			suitColumn.appendChild(document.createElement('br'));
 		}
 
-
 		var PIXEL_WIDTH_OF_CARD = 170;
 		var PIXEL_HEIGHT_OF_CARD = 246;
 		
@@ -101,7 +102,10 @@
 			column = newColumn;
 
 			if(row != undefined){
-				card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+				var top = -(PIXEL_HEIGHT_OF_CARD * row)
+				var left = -(PIXEL_WIDTH_OF_CARD * column);
+
+				card.style.backgroundPosition = left + " " + top;
 			}
 		}
 
@@ -109,7 +113,10 @@
 			row = newRow;
 
 			if(column != undefined){
-				card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+				var top = -(PIXEL_HEIGHT_OF_CARD * row)
+				var left = -(PIXEL_WIDTH_OF_CARD * column);
+
+				card.style.backgroundPosition = left + " " + top;
 			}
 		}
 
