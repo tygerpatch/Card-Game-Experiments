@@ -26,9 +26,6 @@
 		
 		var rankColumn = document.getElementById('rankColumn');
 
-		// Create a radio button for each rank.
-		// When user clicks on the radio button, move the Sprite Sheet window.
-		// Add the created radio button to the appropriate column
 		for(var index = 0; index < cardRanks.length; index++){
 
 			// create a radio button for the rank
@@ -92,10 +89,11 @@
 		var PIXEL_WIDTH_OF_CARD = 170;
 		var PIXEL_HEIGHT_OF_CARD = 246;
 		
-		// move CSS Window to blank card image	
-		card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * 2) + ' ' + -(PIXEL_HEIGHT_OF_CARD * 4);
+		// Move CSS Window to blank card image	
 		// Note: Row and column indices start at 0.
 
+		card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * 2) + ' ' + -(PIXEL_HEIGHT_OF_CARD * 4);
+		
 		var row = undefined;
 		var column = undefined;
 				
