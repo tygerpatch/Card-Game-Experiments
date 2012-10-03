@@ -35,13 +35,16 @@
 			radioButton.type = 'radio';
 			radioButton.name = 'suit';
 
-			// add an event handler for the onclick event
-			if(typeof(radioButton.getAttribute('onclick')) != "function") { 
-				// for FF,IE8,Chrome
+			// *** add an event handler for the onclick event
+
+			var onClickAttribute = typeof(radioButton.getAttribute('onclick'));
+
+			if(onClickAttribute != "function") { 
+				// FireFox, Internet Explorer 8, Chrome
 				radioButton.setAttribute('onclick', 'changeLeftPosition(' + index + ')');
 			} 
 			else {
-				// for IE7
+				// Internet Explorer 7
 				radioButton.onclick = changeLeftPosition(index); 
 			}
 			
@@ -66,13 +69,16 @@
 			radioButton.type = 'radio';
 			radioButton.name = 'rank';
 
-			// add an event handler for the onclick event
-			if(typeof(radioButton.getAttribute('onclick')) != "function") { 
-				// for FF,IE8,Chrome
+			// *** add an event handler for the onclick event
+
+			var onClickAttribute = typeof(radioButton.getAttribute('onclick'));
+
+			if(onClickAttribute != "function") { 
+				// FireFox, Internet Explorer 8, Chrome
 				radioButton.setAttribute('onclick', 'changeTopPosition(' + index + ')');
 			} 
 			else {
-				// for IE7
+				// Internet Explorer 7
 				radioButton.onclick = changeTopPosition(index); 
 			}
 
