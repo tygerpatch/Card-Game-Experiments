@@ -41,11 +41,11 @@
 
 			if(onClickAttribute != "function") { 
 				// FireFox, Internet Explorer 8, Chrome
-				radioButton.setAttribute('onclick', 'changeLeftPosition(' + index + ')');
+				radioButton.setAttribute('onclick', 'moveSpriteWindowLeftBy(' + index + ')');
 			} 
 			else {
 				// Internet Explorer 7
-				radioButton.onclick = changeLeftPosition(index); 
+				radioButton.onclick = moveSpriteWindowLeftBy(index); 
 			}
 			
 			// add radio button for suit to suit column
@@ -75,27 +75,17 @@
 
 			if(onClickAttribute != "function") { 
 				// FireFox, Internet Explorer 8, Chrome
-				radioButton.setAttribute('onclick', 'changeTopPosition(' + index + ')');
+				radioButton.setAttribute('onclick', 'moveSpriteWindowDownBy(' + index + ')');
 			} 
 			else {
 				// Internet Explorer 7
-				radioButton.onclick = changeTopPosition(index); 
+				radioButton.onclick = moveSpriteWindowDownBy(index); 
 			}
 
 			// add radio button for rank to rank column
 			rankColumn.appendChild(radioButton);			
 			rankColumn.appendChild(document.createTextNode(cardRanks[index]));
 			rankColumn.appendChild(document.createElement('br'));
-		}
-
-		function changeTopPosition(value) {
-			top_x = value;
-			changeBackgroundPosition( );
-		}
-		
-		function changeLeftPosition(value) {
-			left_x = value;
-			changeBackgroundPosition( );
 		}
 
 		var card_width = 170;
@@ -107,16 +97,14 @@
 						
 		card.style.backgroundPosition = left + ' ' + top;
 		
-		var top_x;
-		var left_x;
+		function moveSpriteWindowLeftBy(numCards){
+			left = -(card_width * numCards);
+			card.style.backgroundPosition = left + ' ' + top;
+		}
 
-		function changeBackgroundPosition( ) {
-			if((top_x >= 0) && (left_x >= 0)) {
-				left = -(card_width * left_x);
-				top = -(card_height * top_x); // - .5;
-							
-				card.style.backgroundPosition = left + ' ' + top;			
-			}
+		function moveSpriteWindowDownBy(numCards){
+			top = -(card_height * numCards);
+			card.style.backgroundPosition = left + ' ' + top;
 		}
 
 		</script>	
