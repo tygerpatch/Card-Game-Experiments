@@ -11,8 +11,8 @@
 		
 		<table>
 			<tr>
-				<td id='suitColumn'></td>
-				<td id='rankColumn'></td>								
+				<td id='rankColumn'></td>
+				<td id='suitColumn'></td>												
 			</tr>
 		</table>
 
@@ -21,40 +21,9 @@
 		<script type="text/javascript">
 		var card = document.getElementById('card');
 
-		var cardSuits = new Array('ace', 'two', 'three', 'four', 'five', 'six', 'seven',
+		var cardRanks = new Array('ace', 'two', 'three', 'four', 'five', 'six', 'seven',
 			'eight', 'nine', 'ten', 'jack', 'queen', 'king');
-
-		var suitColumn = document.getElementById('suitColumn');
-
-		for(var index = 0; index < cardSuits.length; index++){
-
-			// create a radio button for the suit
-			radioButton = document.createElement('input');
-
-			radioButton.value = index;
-			radioButton.type = 'radio';
-			radioButton.name = 'suit';
-
-			// *** add an event handler for the onclick event
-
-			var onClickAttribute = typeof(radioButton.getAttribute('onclick'));
-
-			if(onClickAttribute != "function") { 
-				// FireFox, Internet Explorer 8, Chrome
-				radioButton.setAttribute('onclick', 'moveSpriteWindowLeftBy(' + index + ')');
-			} 
-			else {
-				// Internet Explorer 7
-				radioButton.onclick = moveSpriteWindowLeftBy(index); 
-			}
-			
-			// add radio button for suit to suit column
-			suitColumn.appendChild(radioButton);			
-			suitColumn.appendChild(document.createTextNode(cardSuits[index]));
-			suitColumn.appendChild(document.createElement('br'));
-		}
-
-		var cardRanks = new Array('club', 'diamond', 'heart', 'spade');
+		
 		var rankColumn = document.getElementById('rankColumn');
 
 		// Create a radio button for each rank.
@@ -63,7 +32,7 @@
 		for(var index = 0; index < cardRanks.length; index++){
 
 			// create a radio button for the rank
-			radioButton = document.createElement('input');
+			var radioButton = document.createElement('input');
 
 			radioButton.value = index;
 			radioButton.type = 'radio';
@@ -75,11 +44,11 @@
 
 			if(onClickAttribute != "function") { 
 				// FireFox, Internet Explorer 8, Chrome
-				radioButton.setAttribute('onclick', 'moveSpriteWindowDownBy(' + index + ')');
+				radioButton.setAttribute('onclick', 'moveSpriteWindowToColumn(' + index + ')');
 			} 
 			else {
 				// Internet Explorer 7
-				radioButton.onclick = moveSpriteWindowDownBy(index); 
+				radioButton.onclick = moveSpriteWindowToColumn(index); 
 			}
 
 			// add radio button for rank to rank column
@@ -88,23 +57,62 @@
 			rankColumn.appendChild(document.createElement('br'));
 		}
 
-		var card_width = 170;
-		var card_height = 246;
+		var cardSuits = new Array('club', 'diamond', 'heart', 'spade');
+		var suitColumn = document.getElementById('suitColumn');
 
-		// move CSS Window to blank card image
-		var top = -(card_height * 4);
-		var left = -(card_width * 2);
-						
-		card.style.backgroundPosition = left + ' ' + top;
-		
-		function moveSpriteWindowLeftBy(numCards){
-			left = -(card_width * numCards);
-			card.style.backgroundPosition = left + ' ' + top;
+		for(var index = 0; index < cardSuits.length; index++){
+
+			// create a radio button for the suit
+			var radioButton = document.createElement('input');
+
+			radioButton.value = index;
+			radioButton.type = 'radio';
+			radioButton.name = 'suit';
+
+			// *** add an event handler for the onclick event
+
+			var onClickAttribute = typeof(radioButton.getAttribute('onclick'));
+
+			if(onClickAttribute != "function") { 
+				// FireFox, Internet Explorer 8, Chrome
+				radioButton.setAttribute('onclick', 'moveSpriteWindowToRow(' + index + ')');
+			} 
+			else {
+				// Internet Explorer 7
+				radioButton.onclick = moveSpriteWindowToRow(index); 
+			}
+			
+			// add radio button for suit to suit column
+			suitColumn.appendChild(radioButton);			
+			suitColumn.appendChild(document.createTextNode(cardSuits[index]));
+			suitColumn.appendChild(document.createElement('br'));
 		}
 
-		function moveSpriteWindowDownBy(numCards){
-			top = -(card_height * numCards);
-			card.style.backgroundPosition = left + ' ' + top;
+
+		var PIXEL_WIDTH_OF_CARD = 170;
+		var PIXEL_HEIGHT_OF_CARD = 246;
+		
+		// move CSS Window to blank card image	
+		card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * 2) + ' ' + -(PIXEL_HEIGHT_OF_CARD * 4);
+		// Note: Row and column indices start at 0.
+
+		var row = undefined;
+		var column = undefined;
+				
+		function moveSpriteWindowToColumn(newColumn) {
+			column = newColumn;
+
+			if(row != undefined){
+				card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+			}
+		}
+
+		function moveSpriteWindowToRow(newRow) {
+			row = newRow;
+
+			if(column != undefined){
+				card.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+			}
 		}
 
 		</script>	
