@@ -1,6 +1,14 @@
 <html>
 	<head>
 		<script type="text/javascript" src="jquery.min.js"></script>
+		<style type="text/css">
+		.card_img {
+			width: 170px;
+			height: 246px;
+			
+			background: url(svg-cards.gif);					
+		}
+		</style>
 	</head>
 	<body>
 
@@ -9,50 +17,37 @@
 
 		<script type="text/javascript">
 
-		// create Card class
-		function Card(rank, suit) {
-			this.rank = rank;
-			this.suit = suit;
-		}
+		var PIXEL_WIDTH_OF_CARD = 170;
+		var PIXEL_HEIGHT_OF_CARD = 246;
 
-		// create array of cards
-		cards = new Array();
-
-		// populate array
-		cards.push(new Card('two', 'club'));
-		cards.push(new Card('two', 'diamond'));
-		cards.push(new Card('two', 'heart'));
-		cards.push(new Card('two', 'spade'));
-	
 		var zIndex = null;
 		var firstCard = null;
 	
-		function createCardImage(rank, suit, index) {
-			// create image element
-			var img = document.createElement('img');
-	
-			img.setAttribute('src', rank + '_' + suit + '.gif');
-			img.setAttribute('id', '' + index);
-	
-			img.style.position = 'absolute';
-			img.style.zIndex = index;
-		
+		function createCardDiv(row, column, index) {
+
+			var div = document.createElement('div');	
+			div.className = 'card_img';
+			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+			div.style.position = 'absolute';
+			div.style.zIndex = index;
+
+			div.setAttribute('id', '' + index);
+			
 			// bring card to front when mouse is hovered over it
-			img.onmouseover = function() {
+			div.onmouseover = function() {
 				// save zIndex for when user tries to swap cards
 				zIndex = this.style.zIndex;
 				this.style.zIndex = cards.length;
 			}
 	
 			// put card back in hand when mouse moves away from it
-			img.onmouseout = function() {
+			div.onmouseout = function() {
 				// restore zIndex of card image
 				this.style.zIndex = zIndex;
 			}
 	
 			// swap card
-			img.onclick = function() {
-			
+			div.onclick = function() {			
 				// if this is the first card clicked...
 				if(firstCard == null){
 					// ...raise it up
@@ -70,10 +65,10 @@
 						cards[firstCard.id] = cards[this.id];
 						cards[this.id] = card;
 	
-						// swap src
-						var src = firstCard.getAttribute('src');
-						firstCard.setAttribute('src', this.getAttribute('src'));
-						this.setAttribute('src', src);
+						// swap backgroundPosition
+						var backgroundPosition = firstCard.style.backgroundPosition; 
+						firstCard.style.backgroundPosition = this.style.backgroundPosition;
+						this.style.backgroundPosition = backgroundPosition;
 					}
 	
 					// finally, reset so no cards have been selected for swap
@@ -81,26 +76,53 @@
 				}
 			}
 			
-			return img;		
+			return div;		
 		}
-	
-		handDiv = document.getElementById('handDiv');
-	
-		function putCardInHand(cardImage, id) {
-			handDiv.appendChild(cardImage);				
+
+		var cards = new Array();
+
+		// *** populate array
+
+		function Card(row, column) {
+			this.row = row;
+			this.column = column;
+		}
+
+		// two of clubs: row 0, column 1
+		var card = new Card(0, 1);		
+		cards.push(card);
+
+		// jack of diamonds: row 1, column 10
+		card = new Card(1, 10);		
+		cards.push(card);
+
+		// king of hearts: row 2, column 12
+		card = new Card(2, 12);		
+		cards.push(card);
+
+		// ace of spades: row 3, column 0
+		card = new Card(3, 0);		
+		cards.push(card);
+
+		// black joker: row 4, column 0
+		card = new Card(4, 0);		
+		cards.push(card);
+
+		var handDiv = document.getElementById('handDiv');
+
+		// for each card in array
+		for(var index = 0; index < cards.length; index++) {
+			var cardDiv = createCardDiv(cards[index].row, cards[index].column, index);
+			putCardInHand(cardDiv, index);
+		}
+		
+		function putCardInHand(cardDiv, id) {
+			handDiv.appendChild(cardDiv);				
 		
 			if(id > 0) {
-				cardImage.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
+				cardDiv.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
 			}
 		}
-	
-		// for each card in array
-		for(var i = 0; i < cards.length; i++) {
-			// create card image (including functionality)
-			putCardInHand(createCardImage(cards[i].rank, cards[i].suit, i), i);
-		}
 		</script>
-
-
 	</body>
 </html>
