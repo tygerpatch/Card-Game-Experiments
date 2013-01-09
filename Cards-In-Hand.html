@@ -5,8 +5,7 @@
 		.card_img {
 			width: 170px;
 			height: 246px;
-			
-			background: url(svg-cards.gif);					
+			background: url(svg-cards.gif);
 		}
 		</style>
 	</head>
@@ -22,10 +21,10 @@
 
 		var zIndex = null;
 		var firstCard = null;
-	
+
 		function createCardDiv(row, column, index) {
 
-			var div = document.createElement('div');	
+			var div = document.createElement('div');
 			div.className = 'card_img';
 			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
 			div.style.position = 'absolute';
@@ -34,79 +33,92 @@
 			div.setAttribute('id', '' + index);
 		}
 
-		var cards = new Array();
-
-		// *** populate array
-
-		function Card(row, column) {
-			this.row = row;
-			this.column = column;
+		var Rank = {
+			ACE: 0,
+			ONE: 1,
+			TWO: 2,
+			THREE: 3,
+			FOUR: 4,
+			FIVE: 5,
+			SIX: 6,
+			SEVEN: 7,
+			EIGHT: 8,
+			NINE: 9,
+			TEN: 10,
+			JACK: 11,
+			QUEEN: 12,
+			KING: 13
 		}
 
-		// two of clubs: row 0, column 1
-		var card = new Card(0, 1);
-		cards.push(card);
+		var Suit = {
+			CLUB: 0,
+			DIAMOND: 1,
+			HEART: 2,
+			SPADE: 3
+		}
 
-		// jack of diamonds: row 1, column 10
-		card = new Card(1, 10);
-		cards.push(card);
+		// Note: It is important that the ordering of the enum values match
+		// with the ordering as they appear on the card sprite sheet.
+		// That is, Clubs is on the first row of the image and is also listed first in the enum.
 
-		// king of hearts: row 2, column 12
-		card = new Card(2, 12);
-		cards.push(card);
+		function Card(rank, suit) {
+			this.row = suit;
+			this.column = rank;
+		};
 
-		// ace of spades: row 3, column 0
-		card = new Card(3, 0);
-		cards.push(card);
 
-		// black joker: row 4, column 0
-		card = new Card(4, 0);
-		cards.push(card);
+		var hand = new Array();
+
+		hand.push(new Card(Rank.TWO, Suit.CLUB));
+		hand.push(new Card(Rank.JACK, Suit.DIAMOND));
+		hand.push(new Card(Rank.KING, Suit.HEART));
+		hand.push(new Card(Rank.ACE, Suit.SPADE));
+		hand.push(new Card(Rank.SIX, Suit.DIAMOND));
 
 		var handDiv = document.getElementById('handDiv');
 
 		// for each card in array
 		for(var index = 0; index < cards.length; index++) {
 			var div = createCardDiv(cards[index].row, cards[index].column, index);
-			
+
 			// bring card to front when mouse is hovered over it
 			div.onmouseover = function() {
 				// save zIndex for when user tries to swap cards
 				zIndex = this.style.zIndex;
 				this.style.zIndex = cards.length;
 			}
-	
+
 			// put card back in hand when mouse moves away from it
 			div.onmouseout = function() {
 				// restore zIndex of card image
 				this.style.zIndex = zIndex;
 			}
-	
+
 			// swap card
-			div.onclick = function() {			
+			div.onclick = function() {
 				// if this is the first card clicked...
 				if(firstCard == null){
 					// ...raise it up
 					this.style.top = (this.offsetTop - 20) + 'px';
 					firstCard = this;
-				} 
+				}
 				else {
 					// ...otherwise lower previously clicked on card
 					firstCard.style.top = (firstCard.offsetTop + 20) + 'px';
-	
+
 					// and if a second, different card was clicked...
 					if(firstCard != this) {
 						// swap Card objects in array
 						var card = cards[firstCard.id];
 						cards[firstCard.id] = cards[this.id];
 						cards[this.id] = card;
-	
+
 						// swap backgroundPosition
-						var backgroundPosition = firstCard.style.backgroundPosition; 
+						var backgroundPosition = firstCard.style.backgroundPosition;
 						firstCard.style.backgroundPosition = this.style.backgroundPosition;
 						this.style.backgroundPosition = backgroundPosition;
 					}
-	
+
 					// finally, reset so no cards have been selected for swap
 					firstCard = null;
 				}
@@ -114,10 +126,10 @@
 
 			putCardInHand(div, index);
 		}
-		
+
 		function putCardInHand(cardDiv, id) {
-			handDiv.appendChild(cardDiv);				
-		
+			handDiv.appendChild(cardDiv);
+
 			if(id > 0) {
 				cardDiv.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
 			}
