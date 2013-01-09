@@ -65,22 +65,18 @@
 		var zIndex = null;
 		var firstCard = null;
 
-		function createCardDiv(row, column, index) {
-
+		// for each card in array
+		for(var index = 0; index < hand.length; index++) {
 			var div = document.createElement('div');
 
 			div.className = 'card_img';
-			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * hand[index].column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * hand[index].row);
+
+			alert("backgroundPosition: " + div.style.backgroundPosition);
+
 			div.style.position = 'absolute';
 			div.style.zIndex = index;
 			div.setAttribute('id', '' + index);
-
-			return div;
-		}
-
-		// for each card in array
-		for(var index = 0; index < hand.length; index++) {
-			var div = createCardDiv(hand[index].row, hand[index].column, index);
 
 			// bring card to front when mouse is hovered over it
 			div.onmouseover = function() {
