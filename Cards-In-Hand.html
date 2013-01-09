@@ -32,6 +32,42 @@
 			div.style.zIndex = index;
 
 			div.setAttribute('id', '' + index);
+		}
+
+		var cards = new Array();
+
+		// *** populate array
+
+		function Card(row, column) {
+			this.row = row;
+			this.column = column;
+		}
+
+		// two of clubs: row 0, column 1
+		var card = new Card(0, 1);
+		cards.push(card);
+
+		// jack of diamonds: row 1, column 10
+		card = new Card(1, 10);
+		cards.push(card);
+
+		// king of hearts: row 2, column 12
+		card = new Card(2, 12);
+		cards.push(card);
+
+		// ace of spades: row 3, column 0
+		card = new Card(3, 0);
+		cards.push(card);
+
+		// black joker: row 4, column 0
+		card = new Card(4, 0);
+		cards.push(card);
+
+		var handDiv = document.getElementById('handDiv');
+
+		// for each card in array
+		for(var index = 0; index < cards.length; index++) {
+			var div = createCardDiv(cards[index].row, cards[index].column, index);
 			
 			// bring card to front when mouse is hovered over it
 			div.onmouseover = function() {
@@ -75,45 +111,8 @@
 					firstCard = null;
 				}
 			}
-			
-			return div;		
-		}
 
-		var cards = new Array();
-
-		// *** populate array
-
-		function Card(row, column) {
-			this.row = row;
-			this.column = column;
-		}
-
-		// two of clubs: row 0, column 1
-		var card = new Card(0, 1);		
-		cards.push(card);
-
-		// jack of diamonds: row 1, column 10
-		card = new Card(1, 10);		
-		cards.push(card);
-
-		// king of hearts: row 2, column 12
-		card = new Card(2, 12);		
-		cards.push(card);
-
-		// ace of spades: row 3, column 0
-		card = new Card(3, 0);		
-		cards.push(card);
-
-		// black joker: row 4, column 0
-		card = new Card(4, 0);		
-		cards.push(card);
-
-		var handDiv = document.getElementById('handDiv');
-
-		// for each card in array
-		for(var index = 0; index < cards.length; index++) {
-			var cardDiv = createCardDiv(cards[index].row, cards[index].column, index);
-			putCardInHand(cardDiv, index);
+			putCardInHand(div, index);
 		}
 		
 		function putCardInHand(cardDiv, id) {
