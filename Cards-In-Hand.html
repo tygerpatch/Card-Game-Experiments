@@ -15,24 +15,6 @@
 		<div id="handDiv"></div>
 
 		<script type="text/javascript">
-
-		var PIXEL_WIDTH_OF_CARD = 170;
-		var PIXEL_HEIGHT_OF_CARD = 246;
-
-		var zIndex = null;
-		var firstCard = null;
-
-		function createCardDiv(row, column, index) {
-
-			var div = document.createElement('div');
-			div.className = 'card_img';
-			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
-			div.style.position = 'absolute';
-			div.style.zIndex = index;
-
-			div.setAttribute('id', '' + index);
-		}
-
 		var Rank = {
 			ACE: 0,
 			ONE: 1,
@@ -77,15 +59,34 @@
 
 		var handDiv = document.getElementById('handDiv');
 
+		var PIXEL_WIDTH_OF_CARD = 170;
+		var PIXEL_HEIGHT_OF_CARD = 246;
+
+		var zIndex = null;
+		var firstCard = null;
+
+		function createCardDiv(row, column, index) {
+
+			var div = document.createElement('div');
+
+			div.className = 'card_img';
+			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * row);
+			div.style.position = 'absolute';
+			div.style.zIndex = index;
+			div.setAttribute('id', '' + index);
+
+			return div;
+		}
+
 		// for each card in array
-		for(var index = 0; index < cards.length; index++) {
-			var div = createCardDiv(cards[index].row, cards[index].column, index);
+		for(var index = 0; index < hand.length; index++) {
+			var div = createCardDiv(hand[index].row, hand[index].column, index);
 
 			// bring card to front when mouse is hovered over it
 			div.onmouseover = function() {
 				// save zIndex for when user tries to swap cards
 				zIndex = this.style.zIndex;
-				this.style.zIndex = cards.length;
+				this.style.zIndex = hand.length;
 			}
 
 			// put card back in hand when mouse moves away from it
@@ -97,7 +98,7 @@
 			// swap card
 			div.onclick = function() {
 				// if this is the first card clicked...
-				if(firstCard == null){
+				if(firstCard == null) {
 					// ...raise it up
 					this.style.top = (this.offsetTop - 20) + 'px';
 					firstCard = this;
@@ -109,9 +110,9 @@
 					// and if a second, different card was clicked...
 					if(firstCard != this) {
 						// swap Card objects in array
-						var card = cards[firstCard.id];
-						cards[firstCard.id] = cards[this.id];
-						cards[this.id] = card;
+						var card = hand[firstCard.id];
+						hand[firstCard.id] = hand[this.id];
+						hand[this.id] = card;
 
 						// swap backgroundPosition
 						var backgroundPosition = firstCard.style.backgroundPosition;
@@ -124,15 +125,13 @@
 				}
 			}
 
-			putCardInHand(div, index);
-		}
+			// finally put the card into the handDiv div
+			handDiv.appendChild(div);
 
-		function putCardInHand(cardDiv, id) {
-			handDiv.appendChild(cardDiv);
-
-			if(id > 0) {
-				cardDiv.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
+			if(index > 0) {
+				div.style.left = ((document.getElementById('' + (id - 1)).offsetLeft || 0) + 20) + 'px';
 			}
+
 		}
 		</script>
 	</body>
