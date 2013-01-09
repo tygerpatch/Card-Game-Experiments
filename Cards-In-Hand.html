@@ -70,12 +70,10 @@
 			var div = document.createElement('div');
 
 			div.className = 'card_img';
-			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * hand[index].column) + ' ' + -(PIXEL_HEIGHT_OF_CARD * hand[index].row);
-
-			alert("backgroundPosition: " + div.style.backgroundPosition);
-
+			div.style.backgroundPosition = -(PIXEL_WIDTH_OF_CARD * hand[index].column) + 'px ' + -(PIXEL_HEIGHT_OF_CARD * hand[index].row) + 'px';
 			div.style.position = 'absolute';
 			div.style.zIndex = index;
+
 			div.setAttribute('id', '' + index);
 
 			// bring card to front when mouse is hovered over it
